@@ -1,9 +1,6 @@
 import json
-from os import terminal_size
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types.reply_keyboard import ReplyKeyboardMarkup, KeyboardButton
-from aiogram.utils.markdown import hbold, hunderline, hcode, hlink
-from attr import Factory
 from config import token
 import main as mn
 
