@@ -19,10 +19,6 @@ for key, value in tp_sp.items():
     
 lst_tp_sp = lst_tp_sp[0:-1]
 
-# список футбольных турниров
-with open("list_of_name_turn.json","r") as fl:
-    list_of_name_turn = json.load(fl)
-
 # main buttons
 btn_news, btn_res  = KeyboardButton("Новости"),KeyboardButton("Результаты игр")
 
@@ -109,8 +105,8 @@ async def gener(message: types.Message):
             "1. Лига ВТБ", reply_markup=crt_rows_bskt)
 
     elif message.text == "Англия":
-        mn.get_football_games()
-
+        mn.get_angl()
+        
         # список английских игр
         with open("ftb_res/angl_ftb_games.json","r") as fl:
             angl_ftb_games = json.load(fl)
@@ -122,11 +118,11 @@ async def gener(message: types.Message):
 
         angl_lst_ftb_games = angl_lst_ftb_games[0:-1]
 
-        await message.answer(f"{list_of_name_turn[0]}. \nСписок игр:" + "\n\n" + f"{angl_lst_ftb_games}",\
+        await message.answer(f"{mn.lst_of_name_turn}. \nСписок игр:" + "\n\n" + f"{angl_lst_ftb_games}",\
                 reply_markup=crt_mv_btn)
     
     elif message.text == "Испания":
-        mn.get_football_games()
+        mn.get_isp()
 
         # список испанских игр
         with open("ftb_res/isp_ftb_games.json","r") as fl:
@@ -139,11 +135,11 @@ async def gener(message: types.Message):
 
         isp_lst_ftb_games = isp_lst_ftb_games[0:-1]
     
-        await message.answer(f"{list_of_name_turn[1]}. \nСписок игр:" + "\n\n" + f"{isp_lst_ftb_games}",\
+        await message.answer(f"{mn.lst_of_name_turn}. \nСписок игр:" + "\n\n" + f"{isp_lst_ftb_games}",\
                 reply_markup=crt_mv_btn)
     
     elif message.text == "Германия":
-        mn.get_football_games()
+        mn.get_germ()
 
         # список немецких игр
         with open("ftb_res/germ_ftb_games.json","r") as fl:
@@ -156,11 +152,11 @@ async def gener(message: types.Message):
 
         germ_lst_ftb_games = germ_lst_ftb_games[0:-1]
     
-        await message.answer(f"{list_of_name_turn[2]}. \nСписок игр:" + "\n\n" + f"{germ_lst_ftb_games}",\
+        await message.answer(f"{mn.lst_of_name_turn}. \nСписок игр:" + "\n\n" + f"{germ_lst_ftb_games}",\
                 reply_markup=crt_mv_btn)
 
     elif message.text == "НХЛ":
-        mn.get_hokkey_games()
+        mn.get_nhl()
 
         # список игр НХЛ
         with open("hkk_res/nhl_hkk_games.json","r") as fl:
@@ -173,11 +169,11 @@ async def gener(message: types.Message):
 
         nhl_hkk_list_games = nhl_hkk_list_games[0:-1]
     
-        await message.answer(f"{list_of_name_turn[3]}. \nСписок игр:" + "\n\n" + f"{nhl_hkk_list_games}",\
+        await message.answer(f"{mn.lst_of_name_turn}. \nСписок игр:" + "\n\n" + f"{nhl_hkk_list_games}",\
                 reply_markup=crt_mv_btn)
 
     elif message.text == "КХЛ":
-        mn.get_hokkey_games()
+        mn.get_khl()
 
         # список игр КХЛ
         with open("hkk_res/khl_hkk_games.json","r") as fl:
@@ -190,11 +186,11 @@ async def gener(message: types.Message):
 
         khl_hkk_list_games = khl_hkk_list_games[0:-1]
     
-        await message.answer(f"{list_of_name_turn[4]}. \nСписок игр:" + "\n\n" + f"{khl_hkk_list_games}",\
+        await message.answer(f"{mn.lst_of_name_turn}. \nСписок игр:" + "\n\n" + f"{khl_hkk_list_games}",\
                 reply_markup=crt_mv_btn)
     
     elif message.text == "ВХЛ":
-        mn.get_hokkey_games()
+        mn.get_vhl()
 
         # список игр VHL
         with open("hkk_res/vhl_hkk_games.json","r") as fl:
@@ -207,11 +203,11 @@ async def gener(message: types.Message):
 
         vhl_hkk_list_games = vhl_hkk_list_games[0:-1]
 
-        await message.answer(f"{list_of_name_turn[5]}. \nСписок игр:" + "\n\n" + f"{vhl_hkk_list_games}",\
+        await message.answer(f"{mn.lst_of_name_turn}. \nСписок игр:" + "\n\n" + f"{vhl_hkk_list_games}",\
                 reply_markup=crt_mv_btn)
     
     elif message.text == "Лига ВТБ":
-        mn.get_basketball_games()
+        mn.get_vtb()
 
         # баскетбол
         # Лига ВТБ
@@ -225,7 +221,7 @@ async def gener(message: types.Message):
 
         vtb_bkst_list_games = vtb_bkst_list_games[0:-1]
     
-        await message.answer(f"{list_of_name_turn[6]}. \nСписок игр:" + "\n\n" + f"{vtb_bkst_list_games}",\
+        await message.answer(f"{mn.lst_of_name_turn}. \nСписок игр:" + "\n\n" + f"{vtb_bkst_list_games}",\
                 reply_markup=crt_mv_btn)
 
     else:

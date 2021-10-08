@@ -6,12 +6,13 @@ from requests.api import get
 import json
 
 global lst_of_name_turn
+lst_of_name_turn = ""
+
+global headers
+headers = {"user-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0"}
 
 def get_football_games():
-    headers = {
-        "user-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0"
-    }
-
+       
     url = "https://news.sportbox.ru/"
     r = requests.get(url=url,headers=headers)
     soup = BeautifulSoup(r.text,"lxml")
@@ -30,8 +31,11 @@ def get_football_games():
     
     with open("type_of_sports.json","w") as file:
         json.dump(lst_of_sorts,file, indent=4)
+        
+
+####### ЧЕМПИОНАТ АНГЛИИ ########
+def get_angl():    
     
-    ####### ЧЕМПИОНАТ АНГЛИИ ########
     url = "https://news.sportbox.ru/Vidy_sporta/Futbol/Evropejskie_chempionaty/Angliya"
     r = requests.get(url=url,headers=headers)
     soup = BeautifulSoup(r.text,"lxml")
@@ -48,10 +52,7 @@ def get_football_games():
         angl_nm_turn = angl_nm_turn.replace("  ", " ")
 
     global lst_of_name_turn
-
-    lst_of_name_turn = []
-
-    lst_of_name_turn.append(angl_nm_turn)
+    lst_of_name_turn = angl_nm_turn
 
     for lst in tegs:
         teams = lst.find_all("a", class_ = "_Sportbox_Spb2015_Components_GameRow_GameRow")
@@ -94,8 +95,9 @@ def get_football_games():
     with open("ftb_res/angl_ftb_games.json","w") as fl:
         json.dump(angl_ftb_games,fl,indent=4)
 
+####### ЧЕМПИОНАТ ИСПАНИИ ########
+def get_isp():   
     
-    ####### ЧЕМПИОНАТ ИСПАНИИ ########
     url = "https://news.sportbox.ru/Vidy_sporta/Futbol/Evropejskie_chempionaty/Ispaniya"
     r = requests.get(url=url,headers=headers)
     soup = BeautifulSoup(r.text,"lxml")
@@ -111,7 +113,8 @@ def get_football_games():
     while "  " in isp_nm_turn:
         isp_nm_turn = isp_nm_turn.replace("  ", " ")
 
-    lst_of_name_turn.append(isp_nm_turn)
+    global lst_of_name_turn
+    lst_of_name_turn = isp_nm_turn
 
     for lst in tegs:
         teams = lst.find_all("a", class_ = "_Sportbox_Spb2015_Components_GameRow_GameRow")
@@ -154,8 +157,9 @@ def get_football_games():
     with open("ftb_res/isp_ftb_games.json","w") as fl:
         json.dump(isp_ftb_games,fl,indent=4)
 
+####### ЧЕМПИОНАТ ГЕРМАНИИ ########
+def get_germ():
 
-    ####### ЧЕМПИОНАТ ГЕРМАНИИ ########
     url = "https://news.sportbox.ru/Vidy_sporta/Futbol/Evropejskie_chempionaty/Germaniya"
     r = requests.get(url=url,headers=headers)
     soup = BeautifulSoup(r.text,"lxml")
@@ -171,7 +175,8 @@ def get_football_games():
     while "  " in germ_nm_turn:
         germ_nm_turn = germ_nm_turn.replace("  ", " ")
 
-    lst_of_name_turn.append(germ_nm_turn)
+    global lst_of_name_turn
+    lst_of_name_turn = germ_nm_turn
 
     for lst in tegs:
         teams = lst.find_all("a", class_ = "_Sportbox_Spb2015_Components_GameRow_GameRow")
@@ -214,12 +219,9 @@ def get_football_games():
         json.dump(germ_ftb_games,fl,indent=4)
 
 
-def get_hokkey_games():
-    headers = {
-        "user-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0"
-    }
-
-    ################### NHL #######################
+################### NHL #######################
+def get_nhl():
+    
     url = "https://news.sportbox.ru/Vidy_sporta/Hokkej/NHL"
     r = requests.get(url=url,headers=headers)
     soup = BeautifulSoup(r.text,"lxml")
@@ -236,7 +238,7 @@ def get_hokkey_games():
         nhl_nm_turn = nhl_nm_turn.replace("  ", " ")
 
     global lst_of_name_turn
-    lst_of_name_turn.append(nhl_nm_turn)
+    lst_of_name_turn = nhl_nm_turn
 
     for lst in tegs:
         teams = lst.find_all("a", class_ = "_Sportbox_Spb2015_Components_GameRow_GameRow")
@@ -278,7 +280,9 @@ def get_hokkey_games():
     with open("hkk_res/nhl_hkk_games.json","w") as fl:
         json.dump(nhl_hkk_games,fl,indent=4)
 
-    ################### КХЛ #######################
+################### КХЛ #######################
+def get_khl(): 
+
     url = "https://news.sportbox.ru/Vidy_sporta/Hokkej/KHL"
     r = requests.get(url=url,headers=headers)
     soup = BeautifulSoup(r.text,"lxml")
@@ -292,7 +296,8 @@ def get_hokkey_games():
     while "  " in khl_nm_turn:
         khl_nm_turn = khl_nm_turn.replace("  ", " ")
 
-    lst_of_name_turn.append(khl_nm_turn)
+    global lst_of_name_turn
+    lst_of_name_turn = khl_nm_turn
 
     url = "https://news.sportbox.ru/Vidy_sporta/Hokkej/KHL/stats"
     r = requests.get(url=url,headers=headers)
@@ -326,7 +331,7 @@ def get_hokkey_games():
         tm_h.append(lst.find_all("div", class_ = "name")) 
 
     for k,lst in enumerate(tm_h):
-        tm_h[k] = str(lst)[26:-7]
+        tm_h[k] = str(lst)[19:-7]
 
     # гости(название)
     for lst in teams_g_firs:
@@ -337,14 +342,7 @@ def get_hokkey_games():
 
     for k,lst in enumerate(tm_g):
         tm_g[k] = str(lst)[19:-7]
-    
-    
-    """
-    hm_t,gs_t,tm_scr,corr_tm,corr_scr = [],[],[],[],[]
-    for i,k in zip(teams_h, teams_g):
-        print(i.find("div", class_ = "name").text)
-        print(k.find("div", class_ = "name").text, end="\n")
-    """    
+     
 
     for i in scr_firs:
         tm_scr.append(i.contents[0].string)
@@ -395,8 +393,11 @@ def get_hokkey_games():
         
     with open("hkk_res/khl_hkk_games.json","w") as fl:
         json.dump(khl_hkk_games,fl,indent=4)
-    
-    ################### ВХЛ #######################
+
+
+################### ВХЛ #######################
+def get_vhl():    
+  
     url = "https://news.sportbox.ru/Vidy_sporta/Hokkej/VHL"
     r = requests.get(url=url,headers=headers)
     soup = BeautifulSoup(r.text,"lxml")
@@ -412,8 +413,8 @@ def get_hokkey_games():
     while "  " in vhl_nm_turn:
         vhl_nm_turn = vhl_nm_turn.replace("  ", " ")
 
-    
-    lst_of_name_turn.append(vhl_nm_turn)
+    global lst_of_name_turn
+    lst_of_name_turn = vhl_nm_turn
 
     for lst in tegs:
         teams = lst.find_all("a", class_ = "_Sportbox_Spb2015_Components_GameRow_GameRow")
@@ -456,17 +457,9 @@ def get_hokkey_games():
     with open("hkk_res/vhl_hkk_games.json","w") as fl:
         json.dump(vhl_hkk_games,fl,indent=4)
 
-    with open("list_of_name_turn.json","w") as fl:
-        json.dump(lst_of_name_turn,fl,indent=4)
-
+################### ЛигаВТБ #######################
+def get_vtb():
     
-
-def get_basketball_games():
-    headers = {
-        "user-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0"
-    }
-
-    ################### ЛигаВТБ #######################
     url = "https://news.sportbox.ru/Vidy_sporta/Basketbol/vtb-league"
     r = requests.get(url=url,headers=headers)
     soup = BeautifulSoup(r.text,"lxml")
@@ -481,7 +474,7 @@ def get_basketball_games():
         vtb_nm_turn = vtb_nm_turn.replace("  ", " ")
 
     global lst_of_name_turn
-    lst_of_name_turn.append(vtb_nm_turn)
+    lst_of_name_turn = vtb_nm_turn
 
     url = "https://news.sportbox.ru/Vidy_sporta/Basketbol/vtb-league/stats"
     r = requests.get(url=url,headers=headers)
@@ -549,16 +542,9 @@ def get_basketball_games():
     with open("bskt_res/vtb_bkst_games.json","w") as fl:
         json.dump(vtb_bkst_games,fl,indent=4)
 
-    with open("list_of_name_turn.json","w") as fl:
-        json.dump(lst_of_name_turn,fl,indent=4)
-    
-
+################### НОВОСТИ #######################
 def get_news():
-    headers = {
-        "user-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0"
-    }
 
-    ################### НОВОСТИ #######################
     url = "https://www.gazeta.ru/sport/news/"
     r = requests.get(url=url,headers=headers)
     soup = BeautifulSoup(r.text,"lxml")
