@@ -2,22 +2,13 @@ import json
 from os import terminal_size
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types.reply_keyboard import ReplyKeyboardMarkup, KeyboardButton
-from aiogram.dispatcher.filters import Text
+from aiogram.utils.markdown import hbold, hunderline, hcode, hlink
 from attr import Factory
 from config import token
 import main as mn
 
 bot = Bot(token=token)
 dp = Dispatcher(bot)
-
-with open("type_of_sports.json","r") as f:
-    tp_sp = json.load(f)
-
-lst_tp_sp = ""
-for key, value in tp_sp.items():
-    lst_tp_sp += f"{key}" + f"{value} \n"
-    
-lst_tp_sp = lst_tp_sp[0:-1]
 
 # main buttons
 btn_news, btn_res  = KeyboardButton("Новости"),KeyboardButton("Результаты игр")
@@ -65,11 +56,22 @@ crt_mv_btn = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).a
 
 
 @dp.message_handler(commands="start")
-async def start(message: types.Message):  
-    await message.answer("Вас приветствует бот новостей и результатов спортивных игр."+\
-        " Выберите, чтобы вы хотели посмотреть:\n\n                 Новости <----> "+\
-            "Результаты игр", reply_markup=main_rows)
+async def start(message: types.Message):    
+    await message.answer('Вас приветствует бот новостей и результатов спортивных игр. Выберите, чтобы вы хотели посмотреть:\n\n \
+        Новости <----> Результаты игр')
 
+@dp.message_handler(commands="help")
+async def start(message: types.Message):  
+    await message.answer("""Справка о боте.
+
+/start - команда запуска/перезапуска бота         
+
+Формат отображаемых результатов игр:
+домашнаяя команда| счет/время/дата |гостевая команда
+счет - шаблон *-*, где * - домашняя и гостевая команда, соответственно
+время - шаблон *:*
+дата = число месяца + краткое название месяца
+""")
 
 @dp.message_handler(content_types=["text"])
 async def gener(message: types.Message):
@@ -84,8 +86,7 @@ async def gener(message: types.Message):
             await message.answer(list_news, reply_markup=crt_mv_btn)
     
     elif message.text == "Результаты игр":
-        await message.answer("Выберите вид спорта:\n" + \
-            lst_tp_sp, reply_markup=crt_rows)
+        await message.answer("Выберите вид спорта:\n1. Футбол\n2. Хоккей\n3. Баскетбол", reply_markup=crt_rows)
 
     elif message.text == "На главную":
         await message.answer("Выберите, чтобы вы хотели посмотреть:\n\n          Новости <----> "+\
@@ -114,7 +115,7 @@ async def gener(message: types.Message):
         angl_lst_ftb_games = ""
 
         for key, value in angl_ftb_games.items():
-            angl_lst_ftb_games += f"{value['home_team']}" + " " + f"{value['score']}"+ " " + f"{value['guest_team']}\n"
+            angl_lst_ftb_games += f"{value['home_team']}|" + " " + f"{value['score']}"+ " " + f"|{value['guest_team']}\n"
 
         angl_lst_ftb_games = angl_lst_ftb_games[0:-1]
 
@@ -131,7 +132,7 @@ async def gener(message: types.Message):
         isp_lst_ftb_games = ""
 
         for key, value in isp_ftb_games.items():
-            isp_lst_ftb_games += f"{value['home_team']}" + " " + f"{value['score']}"+ " " + f"{value['guest_team']}\n"
+            isp_lst_ftb_games += f"{value['home_team']}|" + " " + f"{value['score']}"+ " " + f"|{value['guest_team']}\n"
 
         isp_lst_ftb_games = isp_lst_ftb_games[0:-1]
     
@@ -148,7 +149,7 @@ async def gener(message: types.Message):
         germ_lst_ftb_games = ""
 
         for key, value in germ_ftb_games.items():
-            germ_lst_ftb_games += f"{value['home_team']}" + " " + f"{value['score']}"+ " " + f"{value['guest_team']}\n"
+            germ_lst_ftb_games += f"{value['home_team']}|" + " " + f"{value['score']}"+ " " + f"|{value['guest_team']}\n"
 
         germ_lst_ftb_games = germ_lst_ftb_games[0:-1]
     
@@ -165,7 +166,7 @@ async def gener(message: types.Message):
         nhl_hkk_list_games = ""
 
         for key, value in nhl_hkk_games.items():
-            nhl_hkk_list_games += f"{value['home_team']}" + " " + f"{value['score']}"+ " " + f"{value['guest_team']}\n"
+            nhl_hkk_list_games += f"{value['home_team']}|" + " " + f"{value['score']}"+ " " + f"|{value['guest_team']}\n"
 
         nhl_hkk_list_games = nhl_hkk_list_games[0:-1]
     
@@ -182,7 +183,7 @@ async def gener(message: types.Message):
         khl_hkk_list_games = ""
 
         for key, value in khl_hkk_games.items():
-            khl_hkk_list_games += f"{value['home_team']}" + " " + f"{value['score']}"+ " " + f"{value['guest_team']}\n"
+            khl_hkk_list_games += f"{value['home_team']}|" + " " + f"{value['score']}"+ " " + f"|{value['guest_team']}\n"
 
         khl_hkk_list_games = khl_hkk_list_games[0:-1]
     
@@ -199,7 +200,7 @@ async def gener(message: types.Message):
         vhl_hkk_list_games = ""
 
         for key, value in vhl_hkk_games.items():
-            vhl_hkk_list_games += f"{value['home_team']}" + " " + f"{value['score']}"+ " " + f"{value['guest_team']}\n"
+            vhl_hkk_list_games += f"{value['home_team']}|" + " " + f"{value['score']}"+ " " + f"|{value['guest_team']}\n"
 
         vhl_hkk_list_games = vhl_hkk_list_games[0:-1]
 
@@ -217,7 +218,7 @@ async def gener(message: types.Message):
         vtb_bkst_list_games = ""
 
         for key, value in vtb_bkst_games.items():
-            vtb_bkst_list_games += f"{value['home_team']}" + " " + f"{value['score']}"+ " " + f"{value['guest_team']}\n"
+            vtb_bkst_list_games += f"{value['home_team']}|" + " " + f"{value['score']}"+ " " + f"|{value['guest_team']}\n"
 
         vtb_bkst_list_games = vtb_bkst_list_games[0:-1]
     

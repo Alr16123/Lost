@@ -11,28 +11,6 @@ lst_of_name_turn = ""
 global headers
 headers = {"user-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0"}
 
-def get_football_games():
-       
-    url = "https://news.sportbox.ru/"
-    r = requests.get(url=url,headers=headers)
-    soup = BeautifulSoup(r.text,"lxml")
-
-    tegs = soup.find_all("a")
-    lst_of_sorts = dict()
-    
-    for lst in tegs:
-        if lst['href'] == "/Vidy_sporta/Futbol" and lst.contents[0] !="Футбол":
-            lst_of_sorts['1. '] = lst.contents[0].string
-        elif lst['href'] == "/Vidy_sporta/Basketbol" and lst.contents[0] !="Баскетбол":
-            lst_of_sorts['3. '] = lst.contents[0].string
-        elif lst['href'] == "/Vidy_sporta/Hokkej" and lst.contents[0] !="Хоккей":
-            lst_of_sorts['2. '] = lst.contents[0].string
-
-    
-    with open("type_of_sports.json","w") as file:
-        json.dump(lst_of_sorts,file, indent=4)
-        
-
 ####### ЧЕМПИОНАТ АНГЛИИ ########
 def get_angl():    
     
