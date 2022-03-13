@@ -1,10 +1,9 @@
 import json
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types.reply_keyboard import ReplyKeyboardMarkup, KeyboardButton
-from config import token
 import main as mn
 
-bot = Bot(token=token)
+bot = Bot(token="5218952929:AAGq8a9zRe89qQz5YcIkyyUbKfgIej0qOVM")
 dp = Dispatcher(bot)
 
 # main buttons
